@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
+from rest_framework.parsers import JSONParser, MultiPartParser
 from .models import Account
 from .serializers import AccountSerializer
 import csv
@@ -11,9 +11,9 @@ from django.db.models import F
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
-    parser_classes = [JSONParser]  # Ensure JSONParser is used
+    parser_classes = [MultiPartParser, JSONParser]  # Add JSONParser here
 
-    @action(detail=False, methods=['post'])
+    @action(detail=False, methods=['post'], parser_classes=[MultiPartParser])
     def import_accounts(self, request):
         file = request.FILES.get('file')
         if not file:
@@ -35,7 +35,7 @@ class AccountViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({'error': str(e)}, status=400)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], parser_classes=[JSONParser])
     def transfer(self, request, pk=None):
         from_account = self.get_object()
         to_account_id = request.data.get('to_account_id')
