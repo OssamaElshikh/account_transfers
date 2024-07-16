@@ -1,0 +1,31 @@
+# Ignore the .env file containing environment variables
+.env
+
+# Ignore all env files
+.env.*
+
+# Ignore Dockerfile temporary files
+Dockerfile~
+
+# Ignore Docker Compose override files
+docker-compose.override.yml
+
+# Ignore Docker configuration files
+docker-compose.override.yml
+docker-compose.debug.yml
+docker-compose.test.yml
+
+# Ignore Docker volumes and logs
+docker-volume/
+docker-logs/
+
+# Ignore any generated images or containers
+*.tar
+*.img
+
+# Ignore metadata and configuration from Docker Desktop
+.docker/
+
+# Ignore temporary files used during build
+**/build/
+**/tmp/
